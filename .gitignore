@@ -2,5 +2,7 @@
 .vscode
 
 obj/
+SDL2/
+SDL2_install/
 
 wolf3d

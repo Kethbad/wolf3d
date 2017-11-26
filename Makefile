@@ -11,18 +11,12 @@ SDL2_INSTALL_FOLDER = SDL2_install
 SDL2_FOLDER = SDL2
 
 GCC_FLAGS = -Wall -Wextra -Werror
-SDL_INC = -I SDL2-2.0.7/SDL2/include/SDL2/
-SDL_LIB = -L./SDL2-2.0.7/SDL2/lib/ -lSDL2
+SDL_INC = -I SDL2/include/SDL2/
+SDL_LIB = -L./SDL2/lib/ -lSDL2
 
 # ### ##### ################################ ##### ### #
 # ### #####    DO NOT EDIT ANYTHING BELOW    ##### ### #
 # ### ##### ################################ ##### ### #
-
-# ###    BUILDING SDL2    ### #
-build_SDL2:
-	@mkdir -p ${SDL2_INSTALL_FOLDER}
-	cd ${SDL2_INSTALL_FOLDER} && ../SDL2-2.0.7/configure --prefix=$(PWD)/SDL2/ && make && make install
-
 
 # ###    BUILDING OBJECTS    ### #
 OBJ = $(addprefix ${OBJ_FOLDER}/,$(SRC_FILES:.c=.o))
@@ -33,7 +27,6 @@ ${OBJ_FOLDER}/%.o: ${SRC_FOLDER}/%.c
 
 # ###    MAIN RULES    ### #
 all: build_SDL2 ${OBJ}
-	# cd SDL2-2.0.7 ; ./configure --prefix=$(PWD)/SDL2/ ; make ; make install
 	gcc ${GCC_FLAGS} ${SDL_LIB} ${OBJ} -o ${NAME}
 
 clean:
@@ -45,5 +38,10 @@ fclean: clean
 	@rm -f ${NAME}
 
 re: fclean all
+
+# ###    BUILDING SDL2    ### #
+build_SDL2:
+	@mkdir -p ${SDL2_INSTALL_FOLDER}
+	cd ${SDL2_INSTALL_FOLDER} && ../SDL2-2.0.7/configure --prefix=$(PWD)/SDL2/ && make && make install
 
 .PHONY: all clean fclean re
