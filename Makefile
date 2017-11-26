@@ -20,12 +20,8 @@ SDL_LIB = -L./SDL2-2.0.7/SDL2/lib/ -lSDL2
 
 # ###    BUILDING SDL2    ### #
 build_SDL2:
-	@mkdir -p ${SDL_INSTALL_FOLDER}
-	cd ${SDL_INSTALL_FOLDER}
-	../SDL2-2.0.7/configure --prefix=$(PWD)/SDL2/
-	make
-	make install
-	cd ..
+	@mkdir -p ${SDL2_INSTALL_FOLDER}
+	cd ${SDL2_INSTALL_FOLDER} && ../SDL2-2.0.7/configure --prefix=$(PWD)/SDL2/ && make && make install
 
 
 # ###    BUILDING OBJECTS    ### #
@@ -36,7 +32,7 @@ ${OBJ_FOLDER}/%.o: ${SRC_FOLDER}/%.c
 
 
 # ###    MAIN RULES    ### #
-all: ${OBJ}
+all: build_SDL2 ${OBJ}
 	# cd SDL2-2.0.7 ; ./configure --prefix=$(PWD)/SDL2/ ; make ; make install
 	gcc ${GCC_FLAGS} ${SDL_LIB} ${OBJ} -o ${NAME}
 
