@@ -41,7 +41,24 @@ re: fclean all
 
 # ###    BUILDING SDL2    ### #
 build_SDL2:
-	@mkdir -p ${SDL2_INSTALL_FOLDER}
-	cd ${SDL2_INSTALL_FOLDER} && ../SDL2-2.0.7/configure --prefix=$(PWD)/SDL2/ && make && make install
+	@echo "Checking SDL2 Installation."
+	@if [ ! -d "${SDL2_INSTALL_FOLDER}" ]; then 										\
+		echo "Building SDL2 Install files."; 											\
+		mkdir -p ${SDL2_INSTALL_FOLDER};												\
+		cd ${SDL2_INSTALL_FOLDER};														\
+		../SDL2-2.0.7/configure --prefix=$(PWD)/SDL2/;									\
+		make;																			\
+		rm -f ../${SDL2_FOLDER};														\
+	else																				\
+		echo "SDL2 Install files are already generated."; 								\
+	fi
+	@if [ ! -d "${SDL2_FOLDER}" ]; then													\
+ 		echo "Installing SDL2.";														\
+		cd ${SDL2_INSTALL_FOLDER};														\
+		make install;																	\
+	else																				\
+		echo "SDL2 is already installed."; 												\
+	fi
+
 
 .PHONY: all clean fclean re
