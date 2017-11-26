@@ -27,23 +27,21 @@ int     main(int argc, char** argv) {
     clock_t     previous_frame_timestamp = clock();
     while (1) {
         if ((clock() - previous_frame_timestamp) > SETTINGS_FRAME_DELAY) {
-            printf("%lu\n", clock());
             for(int i = 0; i < 100; i++) {
                 for(int j = 0; j < 100; j++) {
                     pixels[(i + 100) + (j + 100) * WINDOW_WIDTH] = color;
                 }
             }
             SDL_UpdateTexture(texture, NULL, &pixels, WINDOW_WIDTH * sizeof(unsigned int));
-            SDL_WaitEvent(&event);
-            switch (event.type)
-            {
-                case SDL_QUIT:
-                    SDL_DestroyTexture(texture);
-                    SDL_DestroyRenderer(renderer);
-                    SDL_Quit();
-                    return 0;
+            while ( SDL_PollEvent(&event) ) {
+                switch (event.type) {
+                    case SDL_QUIT:
+                        SDL_DestroyTexture(texture);
+                        SDL_DestroyRenderer(renderer);
+                        SDL_Quit();
+                        return 0;
+                }
             }
-            SDL_PumpEvents();
             SDL_RenderClear(renderer);
             SDL_RenderCopy(renderer, texture, NULL, NULL);
             SDL_RenderPresent(renderer);
