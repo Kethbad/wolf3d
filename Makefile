@@ -7,6 +7,9 @@ SRC_FOLDER = src/
 OBJ_FOLDER = obj/
 INC_FOLDER = inc/
 
+SDL2_INSTALL_FOLDER = SDL2_install/
+SDL2_FOLDER = SDL2/
+
 GCC_FLAGS = -Wall -Wextra -Werror
 SDL_INC = -I SDL2-2.0.7/SDL2/include/SDL2/
 SDL_LIB = -L./SDL2-2.0.7/SDL2/lib/ -lSDL2
@@ -14,6 +17,17 @@ SDL_LIB = -L./SDL2-2.0.7/SDL2/lib/ -lSDL2
 # ### ##### ################################ ##### ### #
 # ### #####    DO NOT EDIT ANYTHING BELOW    ##### ### #
 # ### ##### ################################ ##### ### #
+
+# ###    BUILDING SDL2    ### #
+OBJ = $(addprefix ${OBJ_FOLDER},$(SRC_FILES:.c=.o))
+build_SDL2:
+	@mkdir -p ${SDL_INSTALL_FOLDER}
+	cd ${SDL_INSTALL_FOLDER}
+	../SDL2-2.0.7/configure --prefix=$(PWD)/SDL2/
+	make
+	make install
+	cd ..
+
 
 # ###    BUILDING OBJECTS    ### #
 OBJ = $(addprefix ${OBJ_FOLDER},$(SRC_FILES:.c=.o))
@@ -23,14 +37,14 @@ ${OBJ_FOLDER}%.o: ${SRC_FOLDER}%.c
 
 
 # ###    MAIN RULES    ### #
-all: ${OBJ}
-	# curl https://www.libsdl.org/release/SDL2-2.0.7.tar.gz --output SDL2-2.0.7.tar.gz
-	# tar -xzf SDL2-2.0.7.tar.gz
+all: build_SDL2 ${OBJ}
 	# cd SDL2-2.0.7 ; ./configure --prefix=$(PWD)/SDL2/ ; make ; make install
 	gcc ${GCC_FLAGS} ${SDL_LIB} ${OBJ} -o ${NAME}
 
 clean:
 	@rm -rf ${OBJ_FOLDER}
+	@rm -rf ${SDL2_INSTALL_FOLDER}
+	@rm -rf ${SDL2_FOLDER}
 
 fclean: clean
 	@rm -f ${NAME}
