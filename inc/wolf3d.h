@@ -10,6 +10,6 @@
 /* 
 *  OPENCL.C
 */
-void    OpenCLInit( void );
+int   OpenCLInit( void );
 
 # endif
