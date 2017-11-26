@@ -1,59 +1,46 @@
 #include "wolf3d.h"
 
-int     main(int argc, char** argv) {
-    SDL_Window*     window;
-    SDL_Renderer*   renderer;
-    SDL_Texture*    texture;
-    SDL_Event       event;
+void    runtime_init(t_runtime_env* env)
+{
+    env->exit_program = 0;
+    env->previous_frame_timestamp = 0;
+}
 
-    OpenCLInit();
+int     main( void ) {
+    t_sdl_struct        sdl_struct;
+    t_runtime_env       r_env;    
 
-    if (SDL_Init(SDL_INIT_VIDEO)) {
-        fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
-        return -1;
-    }
-    printf("SDL is running.\n");
-
-    window = SDL_CreateWindow("Première fenêtre SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
-    texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-    unsigned int    color = 0xFFFFFFFF;
-    unsigned int    pixels[WINDOW_WIDTH * WINDOW_HEIGHT];
-    for(int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++) {
-        pixels[i] = color;
-    }
-
-    clock_t     previous_frame_timestamp = clock();
-    while (1) {
-        if ((clock() - previous_frame_timestamp) > SETTINGS_FRAME_DELAY) {
-            for(int i = 0; i < 100; i++) {
-                for(int j = 0; j < 100; j++) {
-                    pixels[(i + 100) + (j + 100) * WINDOW_WIDTH] = color;
+    runtime_init(&r_env);
+    if (!w3d_sdl_init(&sdl_struct))
+    {
+        unsigned int    color = 0xFFFFFFFF;
+        for(int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++) {
+            sdl_struct.pixels[i] = color;
+        }
+        while (!r_env.exit_program) {
+            if ((clock() - r_env.previous_frame_timestamp) > SETTINGS_FRAME_DELAY) {
+                for(int i = 0; i < 100; i++) {
+                    for(int j = 0; j < 100; j++) {
+                        sdl_struct.pixels[(i + 100) + (j + 100) * WINDOW_WIDTH] = color;
+                    }
                 }
-            }
-            SDL_UpdateTexture(texture, NULL, &pixels, WINDOW_WIDTH * sizeof(unsigned int));
-            while ( SDL_PollEvent(&event) ) {
-                switch (event.type) {
-                    case SDL_QUIT:
-                        SDL_DestroyTexture(texture);
-                        SDL_DestroyRenderer(renderer);
-                        SDL_Quit();
-                        return 0;
+                while ( SDL_PollEvent(&sdl_struct.event) ) {
+                    switch (sdl_struct.event.type) {
+                        case SDL_QUIT:
+                            r_env.exit_program = 1;
+                            break;
+                    }
                 }
+                w3d_sdl_display(&sdl_struct);       
+                if (color == 0x0000FFFF)
+                    color = 0xFFFF00FF;
+                else
+                    color = 0x0000FFFF;
+                r_env.previous_frame_timestamp = clock();
             }
-            SDL_RenderClear(renderer);
-            SDL_RenderCopy(renderer, texture, NULL, NULL);
-            SDL_RenderPresent(renderer);
-            if (color == 0xFF0000FF)
-                color = 0x000000FF;
-            else
-                color = 0xFF0000FF;
-            previous_frame_timestamp = clock();
         }
     }
 
+    OpenCLInit();
     return 0;
-    (void)argc;
-    (void)argv;
 }
