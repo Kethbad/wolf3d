@@ -11,6 +11,7 @@ SDL2_INSTALL_FOLDER = SDL2_install
 SDL2_FOLDER = SDL2
 
 GCC_FLAGS = -Wall -Wextra -Werror
+OPENCL_FLAG = -framework OpenCL
 SDL_INC = -I SDL2/include/SDL2/
 SDL_LIB = -L./SDL2/lib/ -lSDL2
 
@@ -27,7 +28,7 @@ ${OBJ_FOLDER}/%.o: ${SRC_FOLDER}/%.c
 
 # ###    MAIN RULES    ### #
 all: build_SDL2 ${OBJ}
-	gcc ${GCC_FLAGS} ${SDL_LIB} ${OBJ} -o ${NAME}
+	gcc ${GCC_FLAGS} ${OPENCL_FLAG} ${SDL_LIB} ${OBJ} -o ${NAME}
 
 clean:
 	@rm -rf ${OBJ_FOLDER}
