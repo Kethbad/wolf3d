@@ -1,28 +1,33 @@
 NAME = wolf3d
 
-SRC_FILES = main.c
+SRC_FILES = main.c			\
+			opencl_init.c
 
 SRC_FOLDER = src/
 OBJ_FOLDER = obj/
 INC_FOLDER = inc/
 
 GCC_FLAGS = -Wall -Wextra -Werror
+SDL_INC = -I SDL2-2.0.7/SDL2/include/SDL2/
+SDL_LIB = -L./SDL2-2.0.7/SDL2/lib/ -lSDL2
 
 # ### ##### ################################ ##### ### #
 # ### #####    DO NOT EDIT ANYTHING BELOW    ##### ### #
 # ### ##### ################################ ##### ### #
 
 # ###    BUILDING OBJECTS    ### #
-SRC = $(addprefix ${SRC_FOLDER},${SRC_FILES})
-OBJ_FILES = ${OBJ_FOLDER}$(SRC_FILES:.c=.o)
+OBJ = $(addprefix ${OBJ_FOLDER},$(SRC_FILES:.c=.o))
+${OBJ_FOLDER}%.o: ${SRC_FOLDER}%.c
+	@mkdir -p ${OBJ_FOLDER}
+	gcc -c -o $@ $< $(CFLAGS) -I ${INC_FOLDER} ${SDL_INC}
 
-${OBJ_FOLDER}%.o: $(SRC)
-	mkdir ${OBJ_FOLDER}
-	gcc -c -o $@ $< $(CFLAGS)
 
 # ###    MAIN RULES    ### #
-all: ${OBJ_FILES}
-	gcc ${GCC_FLAGS} ${OBJ_FILES} -o ${NAME}
+all: ${OBJ}
+	# curl https://www.libsdl.org/release/SDL2-2.0.7.tar.gz --output SDL2-2.0.7.tar.gz
+	# tar -xzf SDL2-2.0.7.tar.gz
+	# cd SDL2-2.0.7 ; ./configure --prefix=$(PWD)/SDL2/ ; make ; make install
+	gcc ${GCC_FLAGS} ${SDL_LIB} ${OBJ} -o ${NAME}
 
 clean:
 	@rm -rf ${OBJ_FOLDER}
