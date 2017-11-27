@@ -36,6 +36,9 @@ typedef struct      s_runtime_env {
     clock_t         previous_frame_timestamp;
 }                   t_runtime_env;
 
+/* 
+*  MAIN.C
+*/
 typedef struct          s_vec2D {
     float               x;
     float               y;
