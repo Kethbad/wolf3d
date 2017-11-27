@@ -37,6 +37,7 @@ typedef struct      s_runtime_env {
     char            exit_program;
     clock_t         previous_frame_timestamp;
 }                   t_runtime_env;
+
 /* 
 *  MAIN.C
 */
