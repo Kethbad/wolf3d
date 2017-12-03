@@ -10,7 +10,7 @@
 #include <time.h>
 #include <unistd.h>
 
-/* 
+/*
 *  PROJECT SETINGS
 */
 #define WINDOW_WIDTH (800)
@@ -21,14 +21,15 @@
 
 #define OPENCL_DATA_SIZE (1024)
 
-/* 
+/*
 *  MAIN.C
 */
 
-/* 
+/*
 *  OPENCL_INIT.C
 */
 int   OpenCLInit( void );
+char *parse_map(void);
 
 
 # endif

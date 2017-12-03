@@ -1,8 +1,8 @@
 NAME = wolf3d
 
 SRC_FILES = main.c			\
-			opencl_init.c
-
+			opencl_init.c     \
+			parser_map.c
 SRC_FOLDER = src
 OBJ_FOLDER = obj
 INC_FOLDER = inc

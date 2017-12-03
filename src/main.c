@@ -7,7 +7,7 @@ int     main(int argc, char** argv) {
     SDL_Event       event;
 
     OpenCLInit();
-
+    parse_map();
     if (SDL_Init(SDL_INIT_VIDEO)) {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
         return -1;
@@ -27,10 +27,9 @@ int     main(int argc, char** argv) {
     clock_t     previous_frame_timestamp = clock();
     while (1) {
         if ((clock() - previous_frame_timestamp) > SETTINGS_FRAME_DELAY) {
-            for(int i = 0; i < 100; i++) {
-                for(int j = 0; j < 100; j++) {
-                    pixels[(i + 100) + (j + 100) * WINDOW_WIDTH] = color;
-                }
+            int j = 100;
+            for(int i = 0; i < WINDOW_WIDTH; i++) {
+                    pixels[(i) + (j) * WINDOW_WIDTH] = color;
             }
             SDL_UpdateTexture(texture, NULL, &pixels, WINDOW_WIDTH * sizeof(unsigned int));
             while ( SDL_PollEvent(&event) ) {
@@ -52,7 +51,6 @@ int     main(int argc, char** argv) {
             previous_frame_timestamp = clock();
         }
     }
-
     return 0;
     (void)argc;
     (void)argv;
