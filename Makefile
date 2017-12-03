@@ -1,8 +1,9 @@
 NAME = wolf3d
 
 SRC_FILES = main.c			\
-			opencl_init.c     \
-			parser_map.c
+				opencl_init.c     \
+					parser_map.c      \
+					w3d_sdl_init.c
 SRC_FOLDER = src
 OBJ_FOLDER = obj
 INC_FOLDER = inc
@@ -23,7 +24,7 @@ SDL_LIB = -L./SDL2/lib/ -lSDL2
 OBJ = $(addprefix ${OBJ_FOLDER}/,$(SRC_FILES:.c=.o))
 ${OBJ_FOLDER}/%.o: ${SRC_FOLDER}/%.c
 	@mkdir -p ${OBJ_FOLDER}
-	gcc -c -o $@ $< $(CFLAGS) -I ${INC_FOLDER} ${SDL_INC}
+	gcc -c -o $@ $< $(GCC_FLAGS) -I ${INC_FOLDER} ${SDL_INC}
 
 
 # ###    MAIN RULES    ### #
