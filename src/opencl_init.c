@@ -46,7 +46,7 @@ int    OpenCLInit( void ) {
     // Fill our data set with random float values
     //
     int i = 0;
-    unsigned int count = OPENCL_DATA_SIZE;
+    int count = OPENCL_DATA_SIZE;
     for(i = 0; i < count; i++)
         data[i] = rand() / (float)RAND_MAX;
     

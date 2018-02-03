@@ -5,9 +5,12 @@ int     main(int argc, char** argv) {
     SDL_Renderer*   renderer;
     SDL_Texture*    texture;
     SDL_Event       event;
+    char**          map;
 
     OpenCLInit();
-    parse_map();
+    map = parse_map();
+    if(map == NULL)
+        printf("map failed\n");
     if (SDL_Init(SDL_INIT_VIDEO)) {
         fprintf(stdout,"Échec de l'initialisation de la SDL (%s)\n",SDL_GetError());
         return -1;

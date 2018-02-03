@@ -40,7 +40,7 @@ typedef struct      s_runtime_env {
 *  OPENCL_INIT.C
 */
 int   OpenCLInit( void );
-char *parse_map(void);
+char **parse_map(void);
 
 /*
 *  W3D_SDL_INIT.C
