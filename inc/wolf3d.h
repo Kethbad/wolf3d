@@ -36,6 +36,11 @@ typedef struct      s_runtime_env {
     clock_t         previous_frame_timestamp;
 }                   t_runtime_env;
 
+typedef struct          s_vec2D {
+    float               x;
+    float               y;
+}                       t_vec2D;
+
 /*
 *  OPENCL_INIT.C
 */
@@ -48,5 +53,10 @@ char **parse_map(void);
 int     w3d_sdl_init(t_sdl_struct* sdl_struct);
 void    w3d_sdl_cleanup(t_sdl_struct* sdl_struct);
 void    w3d_sdl_display(t_sdl_struct* sdl_struct);
+
+/*
+*  image_calculation.C
+*/
+int     main_loop(t_vec2D pos, t_vec2D direction, char **map);
 
 # endif
