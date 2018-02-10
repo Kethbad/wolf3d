@@ -1,9 +1,5 @@
 #include "wolf3d.h"
 
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-
 // Simple compute kernel which computes the square of an input array 
 //
 const char *KernelSource = "\n" \

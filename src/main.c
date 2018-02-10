@@ -32,50 +32,53 @@ int     main(int argc, char** argv) {
     for(int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++) {
         pixels[i] = color;
     }
-    int j = 100;
+
     clock_t     previous_frame_timestamp = clock();
     while (1) {
         if ((clock() - previous_frame_timestamp) > SETTINGS_FRAME_DELAY) {
-            for(int i = 0; i < WINDOW_WIDTH; i++) {
+            for(int i = 100; i < 200; i++) {
+                for(int j = 100; j < 200; j++) {
                     pixels[(i) + (j) * WINDOW_WIDTH] = color;
+                }
             }
             SDL_UpdateTexture(texture, NULL, &pixels, WINDOW_WIDTH * sizeof(unsigned int));
-            while ( SDL_PollEvent(&event) ) {
-                switch (event.type) {
-                    case SDL_KEYDOWN:
-                        switch( event.key.keysym.sym ){
-                            case SDLK_z:
-                                printf("z");
-                                break;
-                            case SDLK_s:
-                                printf("s");
-                                break;
-                            case SDLK_q:
-                                printf("q");
-                                break;
-                            case SDLK_d:
-                                printf("d");
-                                break;
-                            case SDLK_ESCAPE:
-                                printf("ok");
-                                SDL_DestroyTexture(texture);
-                                SDL_DestroyRenderer(renderer);
-                                SDL_Quit();
-                                return 0;
-                                break;
-                            default:
-                                break;
-
-                        }
+            while ( SDL_PollEvent(&event) )
+            {
+                if (event.type == SDL_KEYDOWN)
+                {
+                    if (event.key.keysym.sym == SDLK_z)
+                    {
+                        printf("z");
+                    }
+                    else if (event.key.keysym.sym == SDLK_s)
+                    {
+                        printf("s");
+                    }
+                    else if (event.key.keysym.sym == SDLK_q)
+                    {
+                        printf("q");
+                    }
+                    else if (event.key.keysym.sym == SDLK_d)
+                    {
+                        printf("d");
+                    }
+                    else if (event.key.keysym.sym == SDLK_ESCAPE)
+                    {
+                        printf("ok");
+                        SDL_DestroyTexture(texture);
+                        SDL_DestroyRenderer(renderer);
+                        SDL_Quit();
+                        return 0;
+                    }
                 }
             }
             SDL_RenderClear(renderer);
             SDL_RenderCopy(renderer, texture, NULL, NULL);
             SDL_RenderPresent(renderer);
-            // if (color == 0xFF0000FF)
-            color = 0xFFFFFFFF;
-            // else
-            //     color = 0xFF0000FF;
+            if (color == 0xFF0000FF)
+                color = 0x00FF00FF;
+            else
+                color = 0xFF0000FF;
             previous_frame_timestamp = clock();
         }
     }
