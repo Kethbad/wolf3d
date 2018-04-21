@@ -12,7 +12,7 @@ INC_FOLDER = inc
 SDL2_INSTALL_FOLDER = SDL2_install
 SDL2_FOLDER = SDL2
 
-GCC_FLAGS = -Wall -Wextra -Werror
+GCC_FLAGS = 
 OPENCL_FLAG = -framework OpenCL
 SDL_INC = -I SDL2/include/SDL2/
 SDL_LIB = -L./SDL2/lib/ -lSDL2

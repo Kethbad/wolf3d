@@ -15,6 +15,7 @@
 */
 #define WINDOW_WIDTH (800)
 #define WINDOW_HEIGHT (600)
+#define FOV (80)
 
 #define SETTINGS_FPS (100)
 #define SETTINGS_FRAME_DELAY (CLOCKS_PER_SEC / SETTINGS_FPS)
@@ -39,10 +40,11 @@ typedef struct      s_runtime_env {
 /* 
 *  MAIN.C
 */
-typedef struct          s_vec2D {
+typedef struct          s_vec3D {
     float               x;
     float               y;
-}                       t_vec2D;
+    float               z;
+}                       t_vec3D;
 
 /*
 *  OPENCL_INIT.C
@@ -60,6 +62,5 @@ void    w3d_sdl_display(t_sdl_struct* sdl_struct);
 /*
 *  image_calculation.C
 */
-int     main_loop(t_vec2D pos, t_vec2D direction, char **map);
-
+unsigned int    *main_loop(t_vec3D pos, t_vec3D direction, unsigned int *pixels, char **map);
 # endif

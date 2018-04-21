@@ -6,15 +6,18 @@ int     main(int argc, char** argv) {
     SDL_Texture*    texture;
     SDL_Event       event;
     char**          map;
-    t_vec2D         pos;
-    t_vec2D         dir;
+    t_vec3D         pos;
+    t_vec3D         dir;
 
     pos.x = 50;
     pos.y = 50;
+    pos.z = 1;
     dir.x = 0;
     dir.y = 1;
+    dir.z = 0;
     OpenCLInit();
     map = parse_map();
+    printf("hello boys: %c", map[0][0]);
     if(map == NULL)
         printf("map failed\n");
     if (SDL_Init(SDL_INIT_VIDEO)) {
@@ -28,18 +31,21 @@ int     main(int argc, char** argv) {
     texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     unsigned int    color = 0x00000000;
-    unsigned int    pixels[WINDOW_WIDTH * WINDOW_HEIGHT];
+   //unsigned int    pixels[WINDOW_WIDTH * WINDOW_HEIGHT];
+    unsigned int *pixels;
+    int j = 100;
+     pixels = (unsigned int *)malloc(sizeof(unsigned int) * WINDOW_WIDTH * WINDOW_HEIGHT);
     for(int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++) {
         pixels[i] = color;
     }
-    int j = 100;
     clock_t     previous_frame_timestamp = clock();
     while (1) {
         if ((clock() - previous_frame_timestamp) > SETTINGS_FRAME_DELAY) {
-            for(int i = 0; i < WINDOW_WIDTH; i++) {
-                    pixels[(i) + (j) * WINDOW_WIDTH] = color;
-            }
-            SDL_UpdateTexture(texture, NULL, &pixels, WINDOW_WIDTH * sizeof(unsigned int));
+            // for(int i = 0; i < WINDOW_WIDTH; i++) {
+            //         pixels[(i) + (j) * WINDOW_WIDTH] = color;
+            // }
+            main_loop( pos, dir, pixels, map);
+            SDL_UpdateTexture(texture, NULL, pixels, WINDOW_WIDTH * sizeof(unsigned int));
             while ( SDL_PollEvent(&event) ) {
                 switch (event.type) {
                     case SDL_KEYDOWN:
